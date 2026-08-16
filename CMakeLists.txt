@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.25)
 
 # This tells cmake we have goodies in the /cmake folder
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+# We call the pamplejuce_* functions explicitly below (vs. legacy include-time behavior)
+set(PAMPLEJUCE_MULTI_PRODUCT ON)
+
 include (PamplejuceVersion)
 
 # Modern concise way to add dependencies to your project
@@ -100,8 +104,9 @@ clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
     CLAP_ID "${BUNDLE_ID}"
     CLAP_FEATURES audio-effect)
 
-# Enable fast math, C++20 and a few other target defaults
+# Enable fast math, C++23 and a few other target defaults
 include(SharedCodeDefaults)
+pamplejuce_shared_code_defaults()
 
 
 # Manually list all .h and .cpp files for the plugin
@@ -114,9 +119,11 @@ target_sources(SharedCode INTERFACE ${SourceFiles})
 
 # Adds a BinaryData target for embedding assets into the binary
 include(Assets)
+pamplejuce_add_assets()
 
 # MacOS only: Cleans up folder and target organization on Xcode.
 include(XcodePrettify)
+pamplejuce_xcode_prettify()
 
 # This is where you can set preprocessor definitions for JUCE and your plugin
 target_compile_definitions(SharedCode
@@ -164,9 +171,11 @@ include(PamplejuceIPP)
 
 # Everything related to the tests target
 include(Tests)
+pamplejuce_add_tests()
 
 # A separate target for Benchmarks (keeps the Tests target fast)
 include(Benchmarks)
+pamplejuce_add_benchmarks()
 
 # Output some config for CI (like our PRODUCT_NAME)
 include(GitHubENV)
