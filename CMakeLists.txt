@@ -48,6 +48,9 @@ project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
 # Log build environment info (after project() so compiler info is available)
 include(PamplejuceLog)
 
+# Defines the pamplejuce_* functions we call below (also fetches Catch2 at include time)
+include(PamplejuceFunctions)
+
 # JUCE is setup as a submodule in the /JUCE folder
 # Locally, you must run `git submodule update --init --recursive` once
 # and later `git submodule update --remote --merge` to keep it up to date
@@ -100,8 +103,8 @@ clap_juce_extensions_plugin(TARGET "${PROJECT_NAME}"
     CLAP_ID "${BUNDLE_ID}"
     CLAP_FEATURES audio-effect)
 
-# Enable fast math, C++20 and a few other target defaults
-include(SharedCodeDefaults)
+# Enable fast math, C++23 and a few other target defaults
+pamplejuce_shared_code_defaults()
 
 
 # Manually list all .h and .cpp files for the plugin
@@ -113,10 +116,10 @@ file(GLOB_RECURSE SourceFiles CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/sou
 target_sources(SharedCode INTERFACE ${SourceFiles})
 
 # Adds a BinaryData target for embedding assets into the binary
-include(Assets)
+pamplejuce_add_assets()
 
 # MacOS only: Cleans up folder and target organization on Xcode.
-include(XcodePrettify)
+pamplejuce_xcode_prettify()
 
 # This is where you can set preprocessor definitions for JUCE and your plugin
 target_compile_definitions(SharedCode
@@ -163,10 +166,10 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE SharedCode)
 include(PamplejuceIPP)
 
 # Everything related to the tests target
-include(Tests)
+pamplejuce_add_tests()
 
 # A separate target for Benchmarks (keeps the Tests target fast)
-include(Benchmarks)
+pamplejuce_add_benchmarks()
 
 # Output some config for CI (like our PRODUCT_NAME)
 include(GitHubENV)

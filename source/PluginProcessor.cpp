@@ -75,7 +75,8 @@ void PluginProcessor::setCurrentProgram (int index)
 const juce::String PluginProcessor::getProgramName (int index)
 {
     juce::ignoreUnused (index);
-    return {};
+    // Steinberg's VST3 validator fails plugins whose single default program has no name
+    return "Default";
 }
 
 void PluginProcessor::changeProgramName (int index, const juce::String& newName)
