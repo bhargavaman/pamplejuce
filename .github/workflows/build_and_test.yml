@@ -258,4 +258,4 @@ jobs:
           files: |
             */*.exe
             */*.zip
-            */*.dmg
+            */*.pkg
