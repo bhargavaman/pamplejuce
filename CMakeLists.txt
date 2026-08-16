@@ -48,7 +48,7 @@ project(${PROJECT_NAME} VERSION ${CURRENT_VERSION})
 # Log build environment info (after project() so compiler info is available)
 include(PamplejuceLog)
 
-# Defines the pamplejuce_* functions we call below
+# Defines the pamplejuce_* functions we call below (also fetches Catch2 at include time)
 include(PamplejuceFunctions)
 
 # JUCE is setup as a submodule in the /JUCE folder

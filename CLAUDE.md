@@ -77,10 +77,17 @@ On macOS for universal binary: `-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"`
 
 **CMake Modules**:
 - `PamplejuceVersion.cmake` - Reads VERSION file, optional auto-bump patch level
-- `Assets.cmake` - Auto-includes all files in assets/ as binary data
-- `Tests.cmake` - Configures Catch2 test target
-- `Benchmarks.cmake` - Configures Catch2 benchmark target
+- `PamplejuceFunctions.cmake` - One include that defines the `pamplejuce_*` functions below (and turns off their legacy include-time behavior)
 - `PamplejuceIPP.cmake` - Intel IPP integration (optional)
+
+Target setup happens via explicit function calls in `CMakeLists.txt`, not at include time:
+- `pamplejuce_add_assets()` - Includes all files in assets/ as binary data (from `Assets.cmake`)
+- `pamplejuce_add_tests()` - Configures the Catch2 test target (from `Tests.cmake`)
+- `pamplejuce_add_benchmarks()` - Configures the Catch2 benchmark target (from `Benchmarks.cmake`)
+- `pamplejuce_shared_code_defaults()` - C++23, fast math (from `SharedCodeDefaults.cmake`)
+- `pamplejuce_xcode_prettify()` - Xcode folder/scheme cleanup (from `XcodePrettify.cmake`)
+
+Note: after `include(PamplejuceFunctions)`, a plain `include(Tests)` (or Assets, etc.) is a no-op - call the function instead.
 
 **Test Discovery**: Uses `catch_discover_tests()` with `PRE_TEST` discovery mode for Xcode compatibility.
 
