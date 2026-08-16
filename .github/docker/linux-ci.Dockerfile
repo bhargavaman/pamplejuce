@@ -11,7 +11,7 @@ RUN apt-get update \
  && wget -O- https://apt.llvm.org/llvm-snapshot.gpg.key | gpg --dearmor > /usr/share/keyrings/llvm.gpg \
  && echo "deb [signed-by=/usr/share/keyrings/llvm.gpg] http://apt.llvm.org/jammy/ llvm-toolchain-jammy-18 main" > /etc/apt/sources.list.d/llvm.list \
  && apt-get update \
- && apt-get install -y clang-18 lld-18 ninja-build libstdc++-12-dev libasound2-dev libjack-jackd2-dev libcurl4-openssl-dev libx11-dev libxinerama-dev libxext-dev libxcomposite-dev libxcursor-dev libxrandr-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libwebkit2gtk-4.1-dev libglu1-mesa-dev mesa-common-dev ladspa-sdk intel-oneapi-ipp-devel \
+ && apt-get install -y clang-18 lld-18 ninja-build libstdc++-12-dev libasound2-dev libjack-jackd2-dev libcurl4-openssl-dev libx11-dev libxi-dev libxinerama-dev libxext-dev libxcomposite-dev libxcursor-dev libxrandr-dev libxrender-dev libfreetype6-dev libfontconfig1-dev libwebkit2gtk-4.1-dev libglu1-mesa-dev mesa-common-dev ladspa-sdk intel-oneapi-ipp-devel \
  && ln -sf /usr/bin/ld.lld-18 /usr/local/bin/ld.lld \
  && rm -rf /var/lib/apt/lists/*
 
